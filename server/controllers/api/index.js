@@ -7,7 +7,7 @@ var OauthParams = require("../../OauthParams");
  * @param code
  * @param hres
  */
-export const handshake = (code, hres) => {
+export const handshake = (code, hreq, hres) => {
   //set all required post parameters
   var data = querystring.stringify({
     grant_type: "authorization_code",
@@ -37,10 +37,12 @@ export const handshake = (code, hres) => {
       let responseData = JSON.parse(data);
       getProfileInformation(responseData.access_token, (data, err) => {
         if (err) {
-          console.log(err);
           hres.status(500).json(err);
         }
-        console.log(data);
+        if (!hreq.session.profileInformation) {
+          hreq.session.profileInformation = data;
+          console.log(JSON.parse(hreq.session.profileInformation));
+        }
         hres.json(JSON.parse(data));
       });
     });

@@ -24,8 +24,8 @@ api.post("/auth", (req, res) => {
 
   //TODO: validate state here
   var error = req.body.error;
-  var error_description = req.body.error_description;
-  var state = req.body.state;
+  // var error_description = req.body.error_description;
+  // var state = req.body.state;
   var code = req.body.code;
   if (error) {
     next(new Error(error));
@@ -38,7 +38,7 @@ api.post("/auth", (req, res) => {
    * you need to repeat all of the previous steps to request another.
    */
   //once the code is received handshake back with linkedin to send over the secret key
-  handshake(code, res);
+  handshake(code, req, res);
 });
 
 api.get("/auth", (req, res) => {
