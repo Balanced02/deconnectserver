@@ -84,3 +84,12 @@ export const getProfileInformation = (access_token, callback) => {
 };
 
 // Toingrick =>  Mentor
+
+export const CreateUser = (req, res) => {
+  if (req.session.profileInformation) {
+    let userProfileInfo = JSON.parse(req.session.profileInformation);
+    const { localizedLastName, firstName, profilePicture } = userProfileInfo;
+    let newUser = { lastName: localizedLastName, firstName, profilePicture };
+    console.log(newUser);
+  }
+};

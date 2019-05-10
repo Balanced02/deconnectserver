@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { handshake } from "../controllers/api";
+import { handshake, CreateUser } from "../controllers/api";
 
 const api = Router();
 const router = Router();

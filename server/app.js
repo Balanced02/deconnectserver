@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true
 });
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
-const db = mongoose.connection
+const db = mongoose.connection;
 
 // Setup Express Session
 app.use(
@@ -29,7 +29,8 @@ app.use(
     secret: process.env.KEY,
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: db })
+    store: new MongoStore({ mongooseConnection: db }),
+    cookie: { secure: true }
   })
 );
 
