@@ -12,7 +12,7 @@ api.get("/", (req, res) => {
   });
 });
 
-api.post("/auth", (req, res) => {
+api.post("/users/login", (req, res) => {
   // This is the redirect URI which linkedin will call to and provide state and code to verify
   /**
      *

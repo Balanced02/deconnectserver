@@ -17,14 +17,14 @@ const UsersSchema = new Schema({
   profile: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   lastName: {
     type: String,
     required: true
   },
   interests: {
-    type: Array,
+    type: Array
   },
   hash: String,
   salt: String

@@ -1,6 +1,12 @@
+// Toingrick =>  Mentor
+
 var http = require("https");
 var querystring = require("querystring");
 var OauthParams = require("../../OauthParams");
+import Users from "../../models/Users";
+import mongoose from "mongoose";
+
+var User = mongoose.model("Users");
 
 /**
  * Handshake with linkedin api once the redirect URI is called by linked in to provide teh client secret and other required details
@@ -39,11 +45,12 @@ export const handshake = (code, hreq, hres) => {
         if (err) {
           hres.status(500).json(err);
         }
-        if (!hreq.session.profileInformation) {
-          hreq.session.profileInformation = data;
-          console.log(JSON.parse(hreq.session.profileInformation));
-        }
-        hres.json(JSON.parse(data));
+        // if (!hreq.session.profileInformation) {
+        hreq.session.profileInformation = data;
+        console.log(JSON.parse(hreq.session.profileInformation));
+        // }
+        // hres.json(JSON.parse(data));
+        CreateUser(hreq, hres);
       });
     });
     req.on("error", function(e) {
@@ -83,13 +90,26 @@ export const getProfileInformation = (access_token, callback) => {
   req.end();
 };
 
-// Toingrick =>  Mentor
-
 export const CreateUser = (req, res) => {
   if (req.session.profileInformation) {
     let userProfileInfo = JSON.parse(req.session.profileInformation);
-    const { localizedLastName, firstName, profilePicture } = userProfileInfo;
-    let newUser = { lastName: localizedLastName, firstName, profilePicture };
-    console.log(newUser);
+    const {
+      localizedLastName,
+      localizedFirstName,
+      profilePicture: { displayImage }
+    } = userProfileInfo;
+    let newUser = {
+      lastName: localizedLastName,
+      firstName: localizedFirstName,
+      profilePicture: displayImage
+    };
+    res.json({
+      user: newUser,
+      message: "New User"
+    });
+  } else {
+    res.json({
+      message: "No user exists"
+    });
   }
 };
